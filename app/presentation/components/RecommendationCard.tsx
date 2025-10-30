@@ -11,6 +11,16 @@ export function RecommendationCard({ item }: { item: Recommendation }) {
   const sub = "director" in item ? `Dir. ${item.director} • ${item.year}` : `Creator ${item.creator} • ${item.year}`;
   const poster = item.posterUrl || item.backdropUrl || "";
 
+  const typeLabel = ("director" in item ? "Movie" : "Series");
+  const formatRuntime = (mins?: number) => {
+    if (!mins || mins <= 0) return undefined;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    if (h > 0 && m > 0) return `${h}h ${m}m`;
+    if (h > 0) return `${h}h`;
+    return `${m}m`;
+  };
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -71,6 +81,21 @@ export function RecommendationCard({ item }: { item: Recommendation }) {
                 <span className="shrink-0 inline-flex items-center gap-1 text-amber-500"><Star className="h-4 w-4" /> {item.rating.toFixed(1)}</span>
               </Dialog.Title>
               <Dialog.Description className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{sub}</Dialog.Description>
+
+              {/* Type + duration/episodes row */}
+              <div className="mt-2 text-xs text-zinc-600 dark:text-zinc-300 flex items-center gap-2">
+                <span className="inline-flex items-center rounded-full border border-zinc-200 dark:border-white/10 px-2 py-0.5 bg-zinc-50 dark:bg-white/5">
+                  {typeLabel}
+                </span>
+                {"director" in item ? (
+                  (() => {
+                    const rt = formatRuntime(item.runtime);
+                    return rt ? <span className="text-zinc-600 dark:text-zinc-400">• {rt}</span> : null;
+                  })()
+                ) : (
+                  item.episodeCount ? <span className="text-zinc-600 dark:text-zinc-400">• {item.episodeCount} episodes</span> : null
+                )}
+              </div>
 
               <p className="text-sm mt-3 text-zinc-700 dark:text-zinc-200 leading-relaxed">{item.synopsis}</p>
 
