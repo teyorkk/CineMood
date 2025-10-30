@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Movie/Series Recommendation Bot (Next.js + Gemini + TMDB)
+=========================================================
 
-## Getting Started
+Personalized movie and TV series recommendations based on your mood and preferred genres. Built with Next.js App Router, Tailwind CSS v4, and a clean architecture inside the `app/` folder.
 
-First, run the development server:
+Project structure
+-----------------
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+app/
+	api/recommendations/route.ts        # API route calling Gemini + TMDB
+	core/
+		domain/
+			entities/types.ts               # Movie/Series entities and request types
+			repositories/IRecommendationRepository.ts
+			use-cases/GenerateRecommendationsUseCase.ts
+		infrastructure/
+			api/{geminiClient,tmdbClient}.ts
+			adapters/GeminiRecommendationRepository.ts
+	presentation/
+		components/{MoodSelector,GenreSelector,RecommendationCard}.tsx
+		hooks/useRecommendations.ts
+	page.tsx                            # UI wiring
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Prerequisites
+-------------
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js 18+
+- API / Webhook:
+	- n8n webhook URL: `N8N_WEBHOOK_URL`
+	- TMDB v3: `TMDB_API_KEY`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file:
 
-## Learn More
+```
+N8N_WEBHOOK_URL=https://your-n8n-host/webhook/your-id
+TMDB_API_KEY=your_tmdb_api_key_here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+Install and run
+---------------
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+pnpm install
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open http://localhost:3000 and pick a mood and genres, then click "Get Recommendations".
 
-## Deploy on Vercel
+Notes
+-----
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The server calls your n8n webhook to get mood-based suggestions, then enriches with TMDB.
+- Images come directly from TMDB (no AI image generation).
+- Data is fetched on-demand from the API route and not persisted.
+- Tailwind v4 classes are used; Radix Select powers custom dropdowns.
