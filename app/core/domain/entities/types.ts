@@ -1,4 +1,4 @@
-export type ContentType = 'movie' | 'series' | 'both';
+export type ContentType = "movie" | "series" | "both";
 
 export interface StreamingPlatform {
   name: string;
@@ -42,5 +42,5 @@ export interface RecommendationRequest {
   mood: string;
   genres: string[];
   contentType: ContentType;
-  timeAvailable?: 'short' | 'standard' | 'long' | 'series';
+  timeAvailable?: "short" | "standard" | "long" | "series";
 }

@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
-import type { ContentType, RecommendationRequest } from "@/app/core/domain/entities/types";
+import type {
+  ContentType,
+  RecommendationRequest,
+} from "@/app/core/domain/entities/types";
 import type { Movie, Series } from "@/app/core/domain/entities/types";
 
 export function useRecommendations() {
@@ -17,13 +20,17 @@ export function useRecommendations() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       });
-      if (!res.ok) throw new Error((await res.json()).error || "Failed to fetch");
+      if (!res.ok)
+        throw new Error((await res.json()).error || "Failed to fetch");
       const data = await res.json();
       setItems(data.recommendations || []);
       try {
         const history = JSON.parse(localStorage.getItem("rec_history") || "[]");
         history.unshift({ ts: Date.now(), params });
-        localStorage.setItem("rec_history", JSON.stringify(history.slice(0, 10)));
+        localStorage.setItem(
+          "rec_history",
+          JSON.stringify(history.slice(0, 10))
+        );
       } catch {}
     } catch (e: any) {
       setError(e?.message || "Unknown error");

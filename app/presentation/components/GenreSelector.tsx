@@ -2,10 +2,26 @@
 import { clsx } from "clsx";
 
 const GENRES = [
-  "Action","Comedy","Drama","Horror","Sci-Fi","Romance","Thriller","Documentary","Fantasy","Mystery","Animation"
+  "Action",
+  "Comedy",
+  "Drama",
+  "Horror",
+  "Sci-Fi",
+  "Romance",
+  "Thriller",
+  "Documentary",
+  "Fantasy",
+  "Mystery",
+  "Animation",
 ];
 
-export function GenreSelector({ values, onToggle }: { values: string[]; onToggle: (g: string) => void }) {
+export function GenreSelector({
+  values,
+  onToggle,
+}: {
+  values: string[];
+  onToggle: (g: string) => void;
+}) {
   return (
     <div className="flex flex-wrap gap-2">
       {GENRES.map((g) => {

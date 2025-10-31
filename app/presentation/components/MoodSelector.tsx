@@ -1,5 +1,15 @@
 "use client";
-import { Sparkles, Heart, Laugh, CloudSun, Ghost, Compass, Brain, Flower2, Zap } from "lucide-react";
+import {
+  Sparkles,
+  Heart,
+  Laugh,
+  CloudSun,
+  Ghost,
+  Compass,
+  Brain,
+  Flower2,
+  Zap,
+} from "lucide-react";
 import { clsx } from "clsx";
 
 const MOODS = [
@@ -14,7 +24,13 @@ const MOODS = [
   { key: "Energetic", icon: Sparkles },
 ] as const;
 
-export function MoodSelector({ value, onChange }: { value: string; onChange: (m: string) => void }) {
+export function MoodSelector({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (m: string) => void;
+}) {
   return (
     <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
       {MOODS.map(({ key, icon: Icon }) => {
@@ -32,7 +48,13 @@ export function MoodSelector({ value, onChange }: { value: string; onChange: (m:
             )}
             aria-pressed={active}
           >
-            <Icon className={clsx("h-4 w-4", active ? "opacity-100" : "opacity-80")} />
+            {/* Hide icon on mobile */}
+            <Icon
+              className={clsx(
+                "hidden sm:inline h-4 w-4",
+                active ? "opacity-100" : "opacity-80"
+              )}
+            />
             <span>{key}</span>
           </button>
         );

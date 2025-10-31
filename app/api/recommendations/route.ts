@@ -20,7 +20,10 @@ export async function POST(req: NextRequest) {
     const WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || process.env.N8N_WEBHOOK;
     const TMDB_API_KEY = process.env.TMDB_API_KEY;
     if (!WEBHOOK_URL || !TMDB_API_KEY) {
-      return NextResponse.json({ error: "Server missing N8N_WEBHOOK_URL or TMDB_API_KEY" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Server missing N8N_WEBHOOK_URL or TMDB_API_KEY" },
+        { status: 500 }
+      );
     }
 
     const n8n = new N8NClient(WEBHOOK_URL);
@@ -32,6 +35,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ recommendations });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Unknown error" }, { status: 400 });
+    return NextResponse.json(
+      { error: err?.message || "Unknown error" },
+      { status: 400 }
+    );
   }
 }

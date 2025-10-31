@@ -58,7 +58,9 @@ export function Select({
                   "data-[state=checked]:bg-indigo-50 data-[state=checked]:text-indigo-700 dark:data-[state=checked]:bg-indigo-500/20 dark:data-[state=checked]:text-indigo-100"
                 )}
               >
-                <RSelect.ItemText className="mr-6 truncate">{opt.label}</RSelect.ItemText>
+                <RSelect.ItemText className="mr-6 truncate">
+                  {opt.label}
+                </RSelect.ItemText>
                 <RSelect.ItemIndicator className="absolute right-2 inline-flex items-center text-indigo-600 dark:text-indigo-300">
                   <Check className="h-4 w-4" />
                 </RSelect.ItemIndicator>

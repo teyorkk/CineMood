@@ -1,5 +1,9 @@
 import type { IRecommendationRepository } from "@/app/core/domain/repositories/IRecommendationRepository";
-import type { RecommendationRequest, Movie, Series } from "@/app/core/domain/entities/types";
+import type {
+  RecommendationRequest,
+  Movie,
+  Series,
+} from "@/app/core/domain/entities/types";
 
 export class GenerateRecommendationsUseCase {
   constructor(private recommendationRepository: IRecommendationRepository) {}

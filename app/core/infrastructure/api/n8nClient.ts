@@ -55,10 +55,14 @@ const LowerItem = z
   }));
 
 const RecommendationSchema = z.object({
-  recommendations: z.array(z.union([NormalizedItem, WebhookCapsItem, LowerItem])),
+  recommendations: z.array(
+    z.union([NormalizedItem, WebhookCapsItem, LowerItem])
+  ),
 });
 
-export type WebhookRecommendation = z.infer<typeof RecommendationSchema>["recommendations"][number];
+export type WebhookRecommendation = z.infer<
+  typeof RecommendationSchema
+>["recommendations"][number];
 
 export class N8NClient {
   constructor(private webhookUrl: string) {}
@@ -77,7 +81,12 @@ export class N8NClient {
     });
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      throw new Error(`n8n webhook error: ${res.status} ${res.statusText} ${text?.slice(0, 300)}`);
+      throw new Error(
+        `n8n webhook error: ${res.status} ${res.statusText} ${text?.slice(
+          0,
+          300
+        )}`
+      );
     }
     const text = await res.text();
 
@@ -97,7 +106,7 @@ export class N8NClient {
     // that itself contains JSON (sometimes with markdown code fences). Unwrap it here.
     let candidate: unknown = json;
     if (Array.isArray(json)) {
-      const first = json.find((it: any) => it && (typeof it === "object"));
+      const first = json.find((it: any) => it && typeof it === "object");
       if (first && typeof first === "object") {
         const anyFirst: any = first as any;
         if (anyFirst.json && typeof anyFirst.json === "object") {
@@ -107,7 +116,8 @@ export class N8NClient {
           // strip ```json fences and extract JSON block
           const cleaned = raw.replace(/^```json\s*|```$/g, "");
           const match = cleaned.match(/\{[\s\S]*\}/);
-          if (!match) throw new Error("n8n array item had no parsable JSON in 'output'");
+          if (!match)
+            throw new Error("n8n array item had no parsable JSON in 'output'");
           candidate = JSON.parse(match[0]);
         }
       }
